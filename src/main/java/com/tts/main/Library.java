@@ -1,14 +1,17 @@
 package com.tts.main;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Library{
     // Add the missing implementation to this class
     String officeHours = "9 to 5 daily";
     String address;
-    String title;
-    private static List<Book> books;
-    private static boolean borrowed = false;
+    private final ArrayList<Book> books;
+
+    public Library(String address){
+        this.address = address;
+        books = new ArrayList<>();
+    }
+
 
     public static void main(String[] args) {
         // Create two libraries
@@ -37,7 +40,7 @@ public class Library{
         System.out.println("Borrowing The Lord of the Rings:");
         firstLibrary.borrowBook("The Lord of the Rings");
         firstLibrary.borrowBook("The Lord of the Rings");
-        secondLibrary.borrowBook("The Lord of the Rings");
+        firstLibrary.borrowBook("The Lord of the Rings");
         System.out.println();
 
         // Print the titles of all available books from both libraries
@@ -45,7 +48,7 @@ public class Library{
         firstLibrary.printAvailableBooks();
         System.out.println();
         System.out.println("Books available in the second library:");
-        secondLibrary.printAvailableBooks();
+        firstLibrary.printAvailableBooks();
         System.out.println();
 
         // Return The Lords of the Rings to the first library
@@ -61,29 +64,26 @@ public class Library{
         books.add(bookTitle);
     }
 
-    public static void borrowBook(String borrowedBook){
+    public void borrowBook(String borrowedBook){
     boolean checkedIn = false;
     for(Book book:books){
-        if(book.getTitle() == borrowedBook){
+        if(book.getTitle().equals(borrowedBook)){
             checkedIn = true;
-            if(!book.isBorrowed()) {
-                System.out.println(book.getTitle() + " available for checkout");
-                book.borrowed();
-            }else {
+            if(book.isBorrowed()) {
                 System.out.println(book.getTitle() + " is checked out");
+            }else {
+                System.out.println(book.getTitle() + " is available for checkout");
+                book.borrowed();
             }
     }
     }
     }
-    public static void printAvailableBooks(){
+    public void printAvailableBooks(){
         for(Book book:books){
             System.out.println(book);
         }
     }
-    public Library(String address){
-        this.address = address;
-        books = new ArrayList<Book>();
-    }
+
     public void printOpeningHours(){
         System.out.println(officeHours);
     }
